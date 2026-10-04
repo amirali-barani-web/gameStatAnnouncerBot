@@ -3,7 +3,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler
 
 TOKEN = "8945387807:AAHEMtxB01ZRlKuO0mYewViX26Km-GxtJqk"
-WEBHOOK_URL = "https://gamestatannouncerbot.onrender.com"  # ← اینو عوض کن!
+WEBHOOK_URL = "https://gamestatannouncerbot.onrender.com/"
 
 # ─────────── بازی /play ───────────
 async def play(update, context):
