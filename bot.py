@@ -1,8 +1,9 @@
-import telegram
+import os
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler
 
 TOKEN = "8945387807:AAHEMtxB01ZRlKuO0mYewViX26Km-GxtJqk"
+WEBHOOK_URL = "https://gamestatannouncerbot.onrender.com"  # ← اینو عوض کن!
 
 # ─────────── بازی /play ───────────
 async def play(update, context):
@@ -25,7 +26,7 @@ async def play(update, context):
     # پین کردن پیام دکمهدار
     try:
         await sent.pin()
-    except:
+    except Exception:
         await update.message.reply_text("بات دسترسی نداشت کار نکرد امیرو صدا کنین بیاد درستش کنه")
 
 # ─────────── جوین (کلیک روی دکمه) ───────────
@@ -46,4 +47,16 @@ async def join(update, context):
 app = Application.builder().token(TOKEN).build()
 app.add_handler(CommandHandler("play", play))
 app.add_handler(CallbackQueryHandler(join))
-app.run_polling()
+
+if __name__ == "__main__":
+    if os.environ.get("RENDER"):
+        # ── روی Render: از webhook استفاده کن ──
+        app.run_webhook(
+            listen="0.0.0.0",
+            port=8443,
+            url_path=TOKEN,
+            webhook_url=WEBHOOK_URL + TOKEN
+        )
+    else:
+        # ── توی کامپیوتر خودت: polling ──
+        app.run_polling()
